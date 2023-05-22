@@ -1,0 +1,31 @@
+IMDB Design a DB for IMDB 1. Movie should have multiple media(Video or Image) 2. Movie can belongs to multiple Genre 3. Movie can have multiple reviews and Review can belongs to a user 4. Artist can have multiple skills 5. Artist can perform multiple role in a single film
+
+IMDB Design a DB for IMDB :
+create table movies(
+id,
+name text,
+genre text,
+reviews text,
+artist text,
+);
+insert into movies values(1,"Irom Man","fantasy","Excellent","Robert",)
+
+create table artist(
+name text,
+skills text,
+role
+);
+insert into artist values("Tony Stark","Action, "Comedian","Hero",Dancer")
+
+create table reviews(
+moviename text,
+reviews text
+);
+insert into reviws ("Iron Man","Very good Movie and amazing visualization");
+
+create table images(
+moviename text,
+image blob
+);
+insert into images values ("Captain America","path");
+}
