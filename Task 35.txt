@@ -1,31 +1,90 @@
-IMDB Design a DB for IMDB 1. Movie should have multiple media(Video or Image) 2. Movie can belongs to multiple Genre 3. Movie can have multiple reviews and Review can belongs to a user 4. Artist can have multiple skills 5. Artist can perform multiple role in a single film
-
-IMDB Design a DB for IMDB :
-create table movies(
-id,
-name text,
-genre text,
-reviews text,
-artist text,
+Movie table
+CREATE TABLE Movie (
+  movie_id INT PRIMARY KEY,
+  title VARCHAR(255),
+  release_date DATE,
+  description VARCHAR(500)
 );
-insert into movies values(1,"Irom Man","fantasy","Excellent","Robert",)
 
-create table artist(
-name text,
-skills text,
-role
+Media table
+CREATE TABLE Media (
+  media_id INT PRIMARY KEY,
+  movie_id INT,
+  media_type VARCHAR(20),
+  media_url VARCHAR(255),
+  FOREIGN KEY (movie_id) REFERENCES Movie(movie_id)
 );
-insert into artist values("Tony Stark","Action, "Comedian","Hero",Dancer")
 
-create table reviews(
-moviename text,
-reviews text
+Genre table
+CREATE TABLE Genre (
+  genre_id INT PRIMARY KEY,
+  genre_name VARCHAR(50)
 );
-insert into reviws ("Iron Man","Very good Movie and amazing visualization");
 
-create table images(
-moviename text,
-image blob
+
+Movie_Genre table - (many-to-many relationship between Movie and Genre)
+CREATE TABLE Movie_Genre (
+  movie_id INT,
+  genre_id INT,
+  FOREIGN KEY (movie_id) REFERENCES Movie(movie_id),
+  FOREIGN KEY (genre_id) REFERENCES Genre(genre_id),
+  PRIMARY KEY (movie_id, genre_id)
 );
-insert into images values ("Captain America","path");
-}
+
+Review table :
+CREATE TABLE Review (
+  review_id INT PRIMARY KEY,
+  movie_id INT,
+  user_id INT,
+  rating DECIMAL(2,1),
+  comment VARCHAR(500),
+  FOREIGN KEY (movie_id) REFERENCES Movie(movie_id),
+  FOREIGN KEY (user_id) REFERENCES User(user_id)
+  -- Add other review attributes as needed
+);
+
+User table :
+CREATE TABLE User (
+  user_id INT PRIMARY KEY,
+  username VARCHAR(50),
+  email VARCHAR(255)
+);
+
+Artist table :
+CREATE TABLE Artist (
+  artist_id INT PRIMARY KEY,
+  name VARCHAR(100)
+);
+
+Skill table :
+CREATE TABLE Skill (
+  skill_id INT PRIMARY KEY,
+  skill_name VARCHAR(100)
+);
+
+Artist_Skill table - (many-to-many relationship between Artist and Skill)  
+CREATE TABLE Artist_Skill (
+  artist_id INT,
+  skill_id INT,
+  FOREIGN KEY (artist_id) REFERENCES Artist(artist_id),
+  FOREIGN KEY (skill_id) REFERENCES Skill(skill_id),
+  PRIMARY KEY (artist_id, skill_id)
+);
+
+Role table :
+CREATE TABLE Role (
+  role_id INT PRIMARY KEY,
+  role_name VARCHAR(100)
+
+);
+
+Artist_Role table - (many-to-many relationship between Artist, Movie, and Role)
+CREATE TABLE Artist_Role (
+  artist_id INT,
+  movie_id INT,
+  role_id INT,
+  FOREIGN KEY (artist_id) REFERENCES Artist(artist_id),
+  FOREIGN KEY (movie_id) REFERENCES Movie(movie_id),
+  FOREIGN KEY (role_id) REFERENCES Role(role_id),
+  PRIMARY KEY (artist_id, movie_id, role_id)
+);
